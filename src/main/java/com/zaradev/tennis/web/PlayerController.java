@@ -1,6 +1,5 @@
 package com.zaradev.tennis.web;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zaradev.tennis.HealthCheck;
 import com.zaradev.tennis.Player;
+import com.zaradev.tennis.PlayerList;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -36,7 +35,7 @@ public class PlayerController {
     })
     @GetMapping
     public List<Player> list() {
-        return Collections.emptyList();
+        return PlayerList.ALL;
     }
 
     @Operation(summary = "Finds a player", description = "Finds a player")
@@ -47,7 +46,10 @@ public class PlayerController {
     })
     @GetMapping("{lastName}")
     public Player getByLastName(@PathVariable String lastName){
-        return null;
+        return PlayerList.ALL.stream()
+                .filter(player -> player.lastName().equals(lastName))
+                .findFirst()
+                .orElse(null);
     }
 
     @Operation(summary = "Create a player", description = "Create a player")
