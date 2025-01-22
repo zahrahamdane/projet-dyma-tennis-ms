@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  zaradev-postgresql:
+    image: postgres:latest
+    container_name: zaradev-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      # Utilisez un volume nommé au lieu d'un chemin local.
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
