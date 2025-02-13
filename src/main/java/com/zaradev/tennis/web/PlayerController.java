@@ -2,6 +2,7 @@ package com.zaradev.tennis.web;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zaradev.tennis.Player;
 import com.zaradev.tennis.PlayerList;
+import com.zaradev.tennis.service.PlayerService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -28,6 +30,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/players")
 public class PlayerController {
 
+    @Autowired
+    private PlayerService playerService;
+
     @Operation(summary = "Finds players", description = "Finds Players")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Players List",
@@ -36,7 +41,7 @@ public class PlayerController {
     })
     @GetMapping
     public List<Player> list() {
-        return PlayerList.ALL;
+        return playerService.getAllPlayers();
     }
 
     @Operation(summary = "Finds a player", description = "Finds a player")
